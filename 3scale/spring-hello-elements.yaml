@@ -42,4 +42,4 @@ metadata:
 spec:
   orgName: RedHat
   providerAccountRef:
-    name: mytenant
+    name: redhat-tenant-secret
