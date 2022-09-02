@@ -13,4 +13,4 @@ spec:
     weight: 100
   tls:
     termination: edge
-    insecureEdgeTerminationPolicy: redirect
+    insecureEdgeTerminationPolicy: Redirect
