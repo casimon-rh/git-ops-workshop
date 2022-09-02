@@ -1,0 +1,3 @@
+resources:
+- apimanager.yaml
+- spring-hello-elements.yaml

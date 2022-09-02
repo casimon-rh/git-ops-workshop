@@ -1,0 +1,28 @@
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Backend
+metadata:
+  name: spring-backend
+spec:
+  name: "Spring Backend"
+  systemName: "springbackend1"
+  privateBaseURL: "http://spring-docker-hello.argocd-user.svc.cluster.local:8080"
+---
+apiVersion: capabilities.3scale.net/v1beta1
+kind: Product
+metadata:
+  name: spring-product
+spec:
+  name: "Spring Product 1"
+  systemName: "springproduct1"
+  backendUsages:
+    backend1:
+      path: /greeting
+---
+apiVersion: capabilities.3scale.net/v1beta1
+kind: DeveloperAccount
+metadata:
+  name: developeraccount-simple-sample
+spec:
+  orgName: RedHat
+  providerAccountRef:
+    name: mytenant
