@@ -36,7 +36,7 @@ spec:
       params:
         - name: IMAGE
           value: >-
-            image-registry.openshift-image-registry.svc:5000/pipeline-simple-user1/spring-docker-hello
+            image-registry.openshift-image-registry.svc:5000/argocd-user/spring-docker-hello
         - name: BUILDER_IMAGE
           value: >-
             registry.redhat.io/rhel8/buildah@sha256:23fb7971ea6ac4aaaaa1139473a602df0df19222a3b5a76b551b2b9ddd92e927
