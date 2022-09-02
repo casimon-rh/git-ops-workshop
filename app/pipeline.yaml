@@ -2,7 +2,6 @@ apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: ci-pipeline
-  namespace: argocd-user
 spec:
   tasks:
     - name: git-clone

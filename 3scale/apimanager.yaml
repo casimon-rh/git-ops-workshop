@@ -1,7 +1,12 @@
 apiVersion: apps.3scale.net/v1alpha1
 kind: APIManager
 metadata:
-  name: apimanager-sample
+  name: the-apimanager
 spec:
   wildcardDomain: apps.cluster-q92ds.q92ds.sandbox1133.opentlc.com
+  system:
+    fileStorage:
+      simpleStorageService:
+        configurationSecretRef:
+          name: aws-auth
 ---
