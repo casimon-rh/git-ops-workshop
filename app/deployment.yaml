@@ -3,51 +3,27 @@ kind: Deployment
 metadata:
   annotations:
   labels:
-    app: spring-petclinic
+    app: spring-docker-hello
     app.kubernetes.io/component: web
-    app.kubernetes.io/instance: spring-petclinic
-    app.kubernetes.io/name: spring-petclinic
-    app.kubernetes.io/part-of: spring-petclinic
+    app.kubernetes.io/instance: spring-docker-hello
+    app.kubernetes.io/name: spring-docker-hello
+    app.kubernetes.io/part-of: spring-docker-hello
     app.openshift.io/runtime: java
-  name: spring-petclinic
+  name: spring-docker-hello
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: spring-petclinic
+      app: spring-docker-hello
   template:
     metadata:
       labels:
-        app: spring-petclinic
+        app: spring-docker-hello
     spec:
       containers:
-      - name: spring-petclinic
+      - name: spring-docker-hello
         imagePullPolicy: Always
-        image: quay.io/siamaksade/spring-petclinic:latest
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 45
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
+        image: image-registry.openshift-image-registry.svc:5000/argocd-user/spring-docker-hello:latest
         ports:
         - containerPort: 8080
           protocol: TCP
-        - containerPort: 8443
-          protocol: TCP
-        - containerPort: 8778
-          protocol: TCP
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /
-            port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 45
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5

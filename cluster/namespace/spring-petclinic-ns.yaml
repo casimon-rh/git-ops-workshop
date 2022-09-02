@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: spring-petclinic-user1
-spec:
-  finalizers:
-  - kubernetes

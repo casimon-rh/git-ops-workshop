@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: argocd-user1
+  name: argocd-user
 spec:
   finalizers:
   - kubernetes
