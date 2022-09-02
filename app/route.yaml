@@ -11,3 +11,6 @@ spec:
     kind: Service
     name: spring-docker-hello
     weight: 100
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: redirect
