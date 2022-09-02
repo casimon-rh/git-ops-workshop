@@ -18,6 +18,23 @@ spec:
     backend1:
       path: /greeting
 ---
+apiVersion: capabilities.3scale.net/v1alpha1
+kind: Tenant
+metadata:
+  name: mytenant
+spec:
+  masterCredentialsRef:
+    name: system-seed
+  passwordCredentialsRef:
+    name: redhat-admin-secret
+  tenantSecretRef:
+    name: redhat-tenant-secret
+  organizationName: RedHat
+  systemMasterUrl: 'https://master.apps.cluster-q92ds.q92ds.sandbox1133.opentlc.com'
+  username: admin
+  email: casimon@redhat.com
+
+---
 apiVersion: capabilities.3scale.net/v1beta1
 kind: DeveloperAccount
 metadata:
