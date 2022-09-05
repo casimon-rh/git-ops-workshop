@@ -3,7 +3,7 @@ kind: APIManager
 metadata:
   name: the-apimanager
 spec:
-  wildcardDomain: apps.cluster-q92ds.q92ds.sandbox1133.opentlc.com
+  wildcardDomain: apps.cluster-x66x5.x66x5.sandbox167.opentlc.com
   backend:
     listenerSpec:
       resources:
