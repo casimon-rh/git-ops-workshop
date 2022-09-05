@@ -4,9 +4,34 @@ metadata:
   name: the-apimanager
 spec:
   wildcardDomain: apps.cluster-q92ds.q92ds.sandbox1133.opentlc.com
+  backend:
+    listenerSpec:
+      resources:
+        requests:
+          memory: "150Mi"
+          cpu: "300m"
+        limits:
+          memory: "500Mi"
+          cpu: "1000m"
   system:
+    appSpec:
+      providerContainerResources:
+        requests:
+          memory: "111Mi"
+          cpu: "222m"
+        limits:
+          memory: "333Mi"
+          cpu: "444m"
     fileStorage:
       simpleStorageService:
         configurationSecretRef:
           name: aws-auth
+  zync:
+    databaseResources:
+      requests:
+        memory: "111Mi"
+        cpu: "222m"
+      limits:
+        memory: "333Mi"
+        cpu: "444m"
 ---
