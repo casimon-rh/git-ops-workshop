@@ -15,7 +15,7 @@ spec:
   name: "Spring Product 1"
   systemName: "springproduct1"
   backendUsages:
-    backend1:
+    springbackend1:
       path: /greeting
 ---
 apiVersion: capabilities.3scale.net/v1alpha1
