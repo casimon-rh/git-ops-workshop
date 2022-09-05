@@ -30,7 +30,7 @@ spec:
   tenantSecretRef:
     name: redhat-tenant-secret
   organizationName: RedHat
-  systemMasterUrl: 'https://master.apps.cluster-q92ds.q92ds.sandbox1133.opentlc.com'
+  systemMasterUrl: 'https://master.apps.cluster-x66x5.x66x5.sandbox167.opentlc.com'
   username: admin
   email: casimon@redhat.com
 
@@ -38,8 +38,23 @@ spec:
 apiVersion: capabilities.3scale.net/v1beta1
 kind: DeveloperAccount
 metadata:
-  name: developeraccount-simple-sample
+  name: redhat-dev-account
 spec:
   orgName: RedHat
   providerAccountRef:
     name: redhat-tenant-secret
+---
+apiVersion: capabilities.3scale.net/v1beta1
+kind: DeveloperUser
+metadata:
+  name: redhat-dev-user
+spec:
+  developerAccountRef:
+    name: redhat-dev-account
+  email: casimon@redhat.com
+  passwordCredentialsRef:
+    name: redhat-dev-secret
+  providerAccountRef:
+    name: redhat-tenant-secret
+  role: admin
+  username: redhat-dev
