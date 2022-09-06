@@ -5,7 +5,7 @@ metadata:
 spec:
   name: "Spring Backend"
   systemName: "springbackend1"
-  privateBaseURL: "http://spring-docker-hello.argocd-user.svc.cluster.local:8080"
+  privateBaseURL: "PRIVATE_BACKEND_URL"
 ---
 apiVersion: capabilities.3scale.net/v1beta1
 kind: Product
@@ -30,7 +30,7 @@ spec:
   tenantSecretRef:
     name: redhat-tenant-secret
   organizationName: RedHat
-  systemMasterUrl: 'https://master.apps.cluster-x66x5.x66x5.sandbox167.opentlc.com'
+  systemMasterUrl: 'PUBLIC_MASTER_URL'
   username: admin
   email: casimon@redhat.com
 

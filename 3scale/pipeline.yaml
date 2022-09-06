@@ -1,0 +1,134 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: replace-task
+spec:
+  params:
+    - name: sedString
+      type: string
+    - name: fileLocation
+      type: string
+  steps:
+    - command:
+        - echo
+        - sed
+        - $(inputs.params.sedString)
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: command
+      resources: {}
+    - command:
+        - ls
+        - /workspaces/folder/
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: ls
+      resources: {}
+    - command:
+        - sed
+        - '-e'
+        - $(inputs.params.sedString)
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: sed
+      resources: {}
+    - command:
+        - cat
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: log
+      resources: {}    
+  workspaces:
+  - name: folder
+    description: The folder where we find the file to replace
+    mountPath: /workspaces/folder
+---
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: 3scale-pipeline
+spec:
+  params:
+    - default: 'http://spring-docker-hello.argocd-user.svc.cluster.local:8080'
+      description: Private Backend Url
+      name: BACKEND_URL
+      type: string
+    - default: 'https://master.apps.cluster.sandboxopentlc.com'
+      description: 3scale Master Url
+      name: MASTER_URL
+      type: string
+  tasks:
+    - name: git-clone
+      params:
+        - name: url
+          value: 'https://github.com/casimon-rh/git-ops-workshop'
+        - name: submodules
+          value: 'true'
+        - name: depth
+          value: '1'
+        - name: sslVerify
+          value: 'true'
+        - name: deleteExisting
+          value: 'true'
+        - name: verbose
+          value: 'true'
+        - name: gitInitImage
+          value: >-
+            registry.redhat.io/openshift-pipelines/pipelines-git-init-rhel8@sha256:5b36e9d4ddffa4c253c47e444b7d3158bbbd2a3acf3c301389f6c50cbf5e8086
+        - name: userHome
+          value: /tekton/home
+        - name: revision
+          value: integracion
+      taskRef:
+        kind: ClusterTask
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: default
+    - name: replace-task-back
+      params:
+        - name: sedString
+          value: s~PRIVATE_BACKEND_URL~$(params.BACKEND_URL)~g
+        - name: fileLocation
+          value: 3scale/spring-hello-elements.yaml
+      runAfter:
+        - git-clone
+      taskRef:
+        kind: Task
+        name: replace-task
+      workspaces:
+        - name: folder
+          workspace: default
+    - name: replace-task-master
+      params:
+        - name: sedString
+          value: s~PUBLIC_MASTER_URL~$(params.MASTER_URL)~g
+        - name: fileLocation
+          value: 3scale/spring-hello-elements.yaml
+      runAfter:
+        - replace-task-back
+      taskRef:
+        kind: Task
+        name: replace-task
+      workspaces:
+        - name: folder
+          workspace: default
+    - name: apply-elements
+      params:
+        - name: SCRIPT
+          value: >-
+            oc apply -f 3scale/spring-hello-elements.yaml
+            --dry-run=client -o yaml
+        - name: VERSION
+          value: latest
+      runAfter:
+        - replace-task-master
+      taskRef:
+        kind: ClusterTask
+        name: openshift-client
+      workspaces:
+        - name: manifest-dir
+          workspace: default
+  workspaces:
+    - name: default
