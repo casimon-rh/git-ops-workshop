@@ -91,7 +91,7 @@ spec:
         - name: sedString
           value: s~PRIVATE_BACKEND_URL~$(params.BACKEND_URL)~g
         - name: fileLocation
-          value: 3scale/spring-hello-elements.yaml
+          value: 3scale/resources/spring-hello-elements.yaml
       runAfter:
         - git-clone
       taskRef:
@@ -105,7 +105,7 @@ spec:
         - name: sedString
           value: s~PUBLIC_MASTER_URL~$(params.MASTER_URL)~g
         - name: fileLocation
-          value: 3scale/spring-hello-elements.yaml
+          value: 3scale/resources/spring-hello-elements.yaml
       runAfter:
         - replace-task-back
       taskRef:
@@ -118,7 +118,7 @@ spec:
       params:
         - name: SCRIPT
           value: >-
-            oc apply -f 3scale/spring-hello-elements.yaml -o yaml
+            oc apply -f 3scale/resources/spring-hello-elements.yaml -o yaml
         - name: VERSION
           value: latest
       runAfter:
