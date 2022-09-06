@@ -118,8 +118,7 @@ spec:
       params:
         - name: SCRIPT
           value: >-
-            oc apply -f 3scale/spring-hello-elements.yaml
-            --dry-run=client -o yaml
+            oc apply -f 3scale/spring-hello-elements.yaml -o yaml
         - name: VERSION
           value: latest
       runAfter:
