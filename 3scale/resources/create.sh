@@ -41,7 +41,7 @@ APPPLAN_ID=$(curl -skf "$BASE_URL/services/$PRODUCT_ID/application_plans$GET_TOK
 if [ -z "$APPPLAN_ID" ]
   then
     echo "creating app plan"
-    curl -svkf -X POST "$BASE_URL/services/$PRODUCT_ID/application_plans.json" \
+    curl -skf -X POST "$BASE_URL/services/$PRODUCT_ID/application_plans.json" \
       --data-urlencode "name=spring-hello-plan" --data-urlencode "system_name=$APPPLAN_SYSNAME" \
       --data-urlencode "access_token=$THREESCALE_TOKEN" --data-urlencode "service_id=$PRODUCT_ID" | cleanup_item
     APPPLAN_ID=$(curl -skf "$BASE_URL/services/$PRODUCT_ID/application_plans$GET_TOKEN" | cleanup_list | filter_appplan | filter_id)
