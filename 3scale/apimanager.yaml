@@ -5,4 +5,9 @@ metadata:
 spec:
   wildcardDomain: apps.cluster-5xcbd.5xcbd.sandbox1488.opentlc.com
   resourceRequirementsEnabled: false
+  system:
+    fileStorage:
+      simpleStorageService:
+        configurationSecretRef:
+          name: aws-auth
 ---
