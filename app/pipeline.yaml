@@ -3,6 +3,11 @@ kind: Pipeline
 metadata:
   name: ci-pipeline
 spec:
+  params:
+    - default: argocd-user
+      description: Custom Project Name
+      name: PROJECT_NAME
+      type: string
   tasks:
     - name: git-clone
       params:
@@ -35,7 +40,7 @@ spec:
       params:
         - name: IMAGE
           value: >-
-            image-registry.openshift-image-registry.svc:5000/argocd-user/spring-docker-hello
+            image-registry.openshift-image-registry.svc:5000/$(params.PROJECT_NAME)/spring-docker-hello
         - name: BUILDER_IMAGE
           value: >-
             registry.redhat.io/rhel8/buildah@sha256:23fb7971ea6ac4aaaaa1139473a602df0df19222a3b5a76b551b2b9ddd92e927
