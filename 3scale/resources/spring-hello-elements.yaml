@@ -51,7 +51,7 @@ metadata:
 spec:
   developerAccountRef:
     name: redhat-dev-account
-  email: casimon@redhat.com
+  email: casimon-1@redhat.com
   passwordCredentialsRef:
     name: redhat-dev-secret
   providerAccountRef:
