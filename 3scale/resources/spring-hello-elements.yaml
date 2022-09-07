@@ -16,45 +16,4 @@ spec:
   systemName: "springproduct1"
   backendUsages:
     springbackend1:
-      path: /greeting
----
-apiVersion: capabilities.3scale.net/v1alpha1
-kind: Tenant
-metadata:
-  name: mytenant
-spec:
-  masterCredentialsRef:
-    name: system-seed
-  passwordCredentialsRef:
-    name: redhat-admin-secret
-  tenantSecretRef:
-    name: redhat-tenant-secret
-  organizationName: RedHat
-  systemMasterUrl: 'PUBLIC_MASTER_URL'
-  username: admin
-  email: casimon@redhat.com
-
----
-apiVersion: capabilities.3scale.net/v1beta1
-kind: DeveloperAccount
-metadata:
-  name: redhat-dev-account
-spec:
-  orgName: RedHat
-  providerAccountRef:
-    name: redhat-tenant-secret
----
-apiVersion: capabilities.3scale.net/v1beta1
-kind: DeveloperUser
-metadata:
-  name: redhat-dev-user
-spec:
-  developerAccountRef:
-    name: redhat-dev-account
-  email: casimon-1@redhat.com
-  passwordCredentialsRef:
-    name: redhat-dev-secret
-  providerAccountRef:
-    name: redhat-tenant-secret
-  role: admin
-  username: redhat-dev
+      path: /
