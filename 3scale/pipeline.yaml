@@ -45,6 +45,36 @@ spec:
     mountPath: /workspaces/folder
 ---
 apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: create-elements-3scale
+spec:
+  params:
+    - name: adminPortalHostname
+      type: string
+    - name: threescaleToken
+      type: string
+    - name: fileLocation
+      type: string
+  steps:
+    - command:
+        - export
+        - ADMIN_PORTAL_HOSTNAME=$(inputs.params.adminPortalHostname)
+        - '&&'
+        - export
+        - THREESCALE_TOKEN=$(inputs.params.adminPortalHostname)
+        - '&&'
+        - bash
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi8/ubi
+      name: exec
+      resources: {} 
+  workspaces:
+  - name: folder
+    description: The folder containing repository
+    mountPath: /workspaces/folder
+---
+apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
   name: 3scale-pipeline
@@ -58,6 +88,11 @@ spec:
       description: 3scale Master Url
       name: MASTER_URL
       type: string
+    - name: ADMIN_PORTAL_HOSTNAME
+      description: Admin Portal Hostname
+      default: 3scale-admin.apps.cluster..sandbox.opentlc.com
+    - name: THREESCALE_TOKEN
+      description: 3scale Token
   tasks:
     - name: git-clone
       params:
@@ -128,6 +163,22 @@ spec:
         name: openshift-client
       workspaces:
         - name: manifest-dir
+          workspace: default
+    - name: create-elements-3scale
+      runAfter:
+        - apply-elements
+      taskRef:
+        kind: Task
+        name: create-elements-3scale
+      params:
+        - name: adminPortalHostname
+          value: $(params.ADMIN_PORTAL_HOSTNAME)
+        - name: threescaleToken
+          value: $(params.THREESCALE_TOKEN)
+        - name: fileLocation
+          value: 3scale/resources/create.sh
+      workspaces:
+        - name: folder
           workspace: default
   workspaces:
     - name: default
