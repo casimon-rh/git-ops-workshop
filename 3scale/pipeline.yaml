@@ -58,21 +58,59 @@ spec:
       type: string
   steps:
     - command:
-        - export
-        - ADMIN_PORTAL_HOSTNAME=$(inputs.params.adminPortalHostname)
-        - '&&'
-        - export
-        - THREESCALE_TOKEN=$(inputs.params.adminPortalHostname)
-        - '&&'
+        - echo
+        - sed
+        - '-e'
+        - s~$ADMIN_PORTAL_HOSTNAME~$(inputs.params.adminPortalHostname)~g
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: command1
+      resources: {}
+    - command:
+        - echo
+        - sed
+        - '-e'
+        - s~$THREESCALE_TOKEN~$(inputs.params.threescaleToken)~g
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: command2
+      resources: {}
+    - command:
+        - sed
+        - '-e'
+        - s~$ADMIN_PORTAL_HOSTNAME~$(inputs.params.adminPortalHostname)~g
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: sed1
+      resources: {}
+    - command:
+        - sed
+        - '-e'
+        - s~$THREESCALE_TOKEN~$(inputs.params.threescaleToken)~g
+        - '-i'
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: sed2
+      resources: {}
+    - command:
+        - cat
+        - /workspaces/folder/$(inputs.params.fileLocation)
+      image: registry.redhat.io/ubi7/ubi-minimal
+      name: cat
+      resources: {}
+    - command:
         - bash
         - /workspaces/folder/$(inputs.params.fileLocation)
-      image: registry.redhat.io/ubi8/ubi
+      image: registry.redhat.io/openshift4/network-tools-rhel8
       name: exec
-      resources: {} 
+      resources: {}
   workspaces:
-  - name: folder
-    description: The folder containing repository
-    mountPath: /workspaces/folder
+    - description: The folder containing repository
+      mountPath: /workspaces/folder
+      name: folder
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
